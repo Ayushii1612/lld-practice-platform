@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f5f4ed" />
+    <title>Design Gym | LLD Practice</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="src/evaluator.js" defer></script>
+    <script src="src/practice-service.js" defer></script>
+    <script src="src/app.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Design Gym home">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span>design<span class="brand-light">gym</span></span>
+      </a>
+      <div class="topbar-meta"><span class="live-dot"></span> LOCAL PRACTICE SPACE</div>
+      <button class="topbar-action" id="new-attempt" type="button"><span aria-hidden="true">+</span> New attempt</button>
+    </header>
+
+    <main class="workspace">
+      <aside class="sidebar" aria-label="Practice navigation">
+        <div class="sidebar-section">
+          <p class="eyebrow">YOUR WORKOUT</p>
+          <h2 class="sidebar-heading">Pick a problem</h2>
+          <nav class="problem-list" id="problem-list" aria-label="Problems"></nav>
+        </div>
+        <div class="sidebar-section history-section">
+          <div class="history-heading">
+            <p class="eyebrow">YOUR PRACTICE</p>
+            <span class="history-count" id="history-count">0</span>
+          </div>
+          <h2 class="sidebar-heading">Recent attempts</h2>
+          <div class="history-list" id="history-list"></div>
+        </div>
+        <p class="sidebar-footnote">A little clearer each time.</p>
+      </aside>
+
+      <section class="practice" aria-label="Practice workspace">
+        <div class="problem-heading" id="problem-heading"></div>
+        <div class="brief-strip" id="brief-strip"></div>
+
+        <form id="attempt-form" novalidate>
+          <div class="editor-heading">
+            <div>
+              <p class="eyebrow">YOUR DESIGN</p>
+              <h2>Make the important decisions visible.</h2>
+            </div>
+            <fieldset class="format-picker">
+              <legend class="sr-only">Submission format</legend>
+              <label><input type="radio" name="format" value="Design notes" checked /><span>Notes</span></label>
+              <label><input type="radio" name="format" value="Diagram + notes" /><span>Diagram</span></label>
+              <label><input type="radio" name="format" value="Code + notes" /><span>Code</span></label>
+            </fieldset>
+          </div>
+
+          <label class="field-label" for="components">Components & responsibilities <span>01</span></label>
+          <textarea id="components" rows="5" placeholder="Name the main classes or objects. What does each one own, decide, or do? Code snippets are welcome."></textarea>
+          <div class="field-hint">Think about boundaries: what should each object be responsible for?</div>
+
+          <label class="field-label" for="relationships">Relationships & core flow <span>02</span></label>
+          <textarea id="relationships" rows="4" placeholder="Show how objects collaborate. A short sequence, ASCII sketch, or Mermaid-style notation works."></textarea>
+          <div class="field-hint">Who creates, owns, or calls whom? Walk through one happy path.</div>
+
+          <label class="field-label" for="tradeoffs">Edge cases & trade-offs <span>03</span></label>
+          <textarea id="tradeoffs" rows="3" placeholder="What can fail? What trade-off did you choose, and why?"></textarea>
+
+          <div class="form-footer">
+            <p class="save-status" id="save-status" role="status">Draft stays in this browser.</p>
+            <div class="form-actions">
+              <button class="button button-quiet" id="save-draft" type="button">Save draft</button>
+              <button class="button button-primary" type="submit">Submit for feedback <span aria-hidden="true">↗</span></button>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <aside class="feedback-panel" aria-label="Feedback and evaluation">
+        <div class="feedback-topline"><p class="eyebrow">DESIGN REVIEW</p><span class="review-mark" aria-hidden="true">↗</span></div>
+        <details class="llm-settings">
+          <summary>Optional AI review</summary>
+          <div class="llm-settings-body">
+            <label for="llm-api-key">OpenAI-compatible API key</label>
+            <input id="llm-api-key" type="password" autocomplete="off" placeholder="Paste a key for this tab" />
+            <div class="llm-key-actions">
+              <button class="button button-primary" id="use-llm-key" type="button">Use for this tab</button>
+              <button class="button button-quiet" id="clear-llm-key" type="button">Clear</button>
+            </div>
+            <p id="llm-key-status" role="status">No key set. Deterministic fallback is active.</p>
+            <p class="llm-security-note">The key stays in this tab's session storage. Browser-only keys are visible to the user; use a server proxy for production.</p>
+          </div>
+        </details>
+        <div id="feedback-content" aria-live="polite"></div>
+        <div class="rubric-note"><span class="note-mark">i</span><p>Feedback checks for signals in your write-up. It is a prompt for reflection, not a verdict on whether your design is the only right answer.</p></div>
+      </aside>
+    </main>
+  </body>
+</html>
